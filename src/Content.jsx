@@ -1,4 +1,5 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
+import { Route, Routes } from 'react-router-dom';
 import { MainContext } from './contexts/MainContext';
 import Gallery from './gallery/Gallery';
 import Posts from './posts/Posts';
@@ -21,10 +22,13 @@ const Content = ()=>{
             <i className={`${style.menu_button} fas fa-bars text-dark d-md-none m-2 pointer`} 
             onClick={handleShowMenu}
             ></i>
-            <Users/>
-            <Posts/>
-            <Gallery/>
-            <Todos/>
+            <Routes>
+                <Route path='/user' element={<Users/>}/>
+                <Route path='/post' element={<Posts/>}/>
+                <Route path='/gallery' element={<Gallery/>}/>
+                <Route path='/todo' element={<Todos/>}/>
+                <Route path='*' element={<Users/>}/>
+            </Routes>
         </div>
     )
 
