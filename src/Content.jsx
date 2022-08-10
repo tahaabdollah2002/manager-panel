@@ -1,8 +1,10 @@
 import React, { useContext, useState } from 'react';
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, Navigate } from 'react-router-dom';
 import { MainContext } from './contexts/MainContext';
 import Gallery from './gallery/Gallery';
 import Posts from './posts/Posts';
+import AddUser from './users/AddUser';
+import EditDesc from './users/EditDesc';
 import style from './style.module.css'
 import Todos from './todos/Todos';
 import Users from './users/Users';
@@ -23,7 +25,12 @@ const Content = ()=>{
             onClick={handleShowMenu}
             ></i>
             <Routes>
+            {/* <Route path="/" element={<Navigate replace to="/gallery"/>} /> */}
                 <Route path='/user' element={<Users/>}/>
+                <Route path="/user/add" element={<AddUser/>}>
+                    <Route path=":userId"/>
+                    {/* <Route path=":userId" element={<EditDesc/>} /> */}
+                </Route>
                 <Route path='/post' element={<Posts/>}/>
                 <Route path='/gallery' element={<Gallery/>}/>
                 <Route path='/todo' element={<Todos/>}/>
