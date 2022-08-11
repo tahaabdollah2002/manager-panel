@@ -16,7 +16,6 @@ const Content = ()=>{
     const handleShowMenu = (event)=>{
         event.stopPropagation()
         setShowMenu(!showMenu)
-        console.log(showMenu);
     }
 
     return (
