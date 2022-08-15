@@ -5,7 +5,8 @@ import style from '../style.module.css'
 const AddUser = ()=>{
 
     const {userId} = useParams();
-    const params = useLocation()
+    const params = useLocation();
+    console.log(params);
     const navigate = useNavigate()
     return (
         <div className={`${style.item_content} mt-5 p-4 container-fluid container`}>
@@ -38,13 +39,13 @@ const AddUser = ()=>{
                             <input type="text" className="form-control" placeholder="ادامه آدرس"/>
                         </div>
                         <div className="col-6 my-1">
-                            <input type="text" class="form-control" placeholder="کد پستی"/>
+                            <input type="text" className="form-control" placeholder="کد پستی"/>
                         </div>
                     </div>
 
                     <div className="col-12 text-start">
-                        <button type="button" class="btn btn-danger ms-2" onClick={()=>navigate(-1)}>بازگشت</button>
-                        <button type="submit" class="btn btn-primary" >
+                        <button type="button" className="btn btn-danger ms-2" onClick={()=>navigate(-1)}>بازگشت</button>
+                        <button type="submit" className="btn btn-primary" >
                         {userId ? "ویرایش " : "افزودن " }
                         </button>
                     </div>

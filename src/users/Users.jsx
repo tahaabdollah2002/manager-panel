@@ -1,11 +1,20 @@
-import React from 'react';
+import {React, useEffect, useState} from 'react';
 import style from '../style.module.css'
 import { Link, useNavigate } from 'react-router-dom';
 import swal from 'sweetalert';
+import axios from 'axios';
 
 const Users = ()=>{
 
-    const navigate = useNavigate()
+    const navigate = useNavigate();
+    const [users, setUsers] = useState([]);
+    useEffect(() => {
+        axios.get('https://jsonplaceholder.typicode.com/users').then(res=>{
+            setUsers(res.data);
+        }).catch(err=>{
+            console.log(err);
+        })
+    }, []);
     const handleDelete = (itemId)=>{
         swal({
             title: "حذف رکورد !",
@@ -41,7 +50,8 @@ const Users = ()=>{
                     </Link>
                 </div>
             </div>
-            <table className="table bg-light shadow">
+            {users.length ? (
+                <table className="table bg-light shadow">
                 <thead>
                     <tr>
                         <th>#</th>
@@ -52,11 +62,12 @@ const Users = ()=>{
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>Taha</td>
-                        <td>Tahaabd2002</td>
-                        <td>tahaabdollah2002@gmail.com</td>
+                    {users.map(u => (
+                        <tr>
+                        <td>{u.id}</td>
+                        <td>{u.name}</td>
+                        <td>{u.username}</td>
+                        <td>{u.email}</td>
                         <td>
                             <i className="fas fa-edit text-warning mx-2 pointer"
                             onClick={()=>navigate("/user/add/2", {
@@ -69,8 +80,13 @@ const Users = ()=>{
                             <i className="fas fa-trash text-danger mx-2 pointer" onClick={()=>handleDelete(1)}></i>
                         </td>
                     </tr>
+                    ))}
                 </tbody>
             </table>
+            ) : (
+                <h4 className='text-center text-info'>لطفا صبر کنید...</h4>
+            )}
+            
         </div>
     )
 
