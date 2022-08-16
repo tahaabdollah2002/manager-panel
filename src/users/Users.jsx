@@ -25,10 +25,26 @@ const Users = ()=>{
           })
           .then((willDelete) => {
             if (willDelete) {
-              swal("حذف با موفقیت انجام شد", {
-                icon: "success",
-                buttons: "متوجه شدم",
-              });
+                axios({
+                    method: 'DELETE',
+                    url: `https://jsonplaceholder.typicode.com/users/${itemId}`
+                }).then(res=>{
+                    if(res.status === 200){
+                        let newUser = users.filter(u=>u.id !==itemId);
+                        setUsers(newUser);
+                        swal("حذف با موفقیت انجام شد", {
+                            icon: "success",
+                            buttons: "متوجه شدم",
+                        });
+                    }else{
+                        swal("عملیات با خطا مواجه شد!", {
+                            icon: "error",
+                            button: "متوجه شدم"
+                        })
+                    }
+                })
+                // axios.delete(`https://jsonplaceholder.typicode.com/users/${itemId}`)
+              
             } else {
               swal("شما از حذف رکورد منصرف شدید!");
             }
@@ -63,7 +79,7 @@ const Users = ()=>{
                 </thead>
                 <tbody>
                     {users.map(u => (
-                        <tr>
+                        <tr key={u.id}>
                         <td>{u.id}</td>
                         <td>{u.name}</td>
                         <td>{u.username}</td>
@@ -77,7 +93,7 @@ const Users = ()=>{
                                 }
                             })}
                             ></i>
-                            <i className="fas fa-trash text-danger mx-2 pointer" onClick={()=>handleDelete(1)}></i>
+                            <i className="fas fa-trash text-danger mx-2 pointer" onClick={()=>handleDelete(u.id)}></i>
                         </td>
                     </tr>
                     ))}
