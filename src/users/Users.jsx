@@ -46,7 +46,10 @@ const Users = ()=>{
                 // axios.delete(`https://jsonplaceholder.typicode.com/users/${itemId}`)
               
             } else {
-              swal("شما از حذف رکورد منصرف شدید!");
+              swal("شما از حذف رکورد منصرف شدید!",{
+                icon: "info",
+                button: "متوجه شدم"
+              });
             }
           });
     }
