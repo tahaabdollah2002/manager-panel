@@ -1,15 +1,14 @@
-import {React, setState} from 'react';
+import {React, useState, useEffect} from 'react';
 import { useParams , Outlet, useNavigate, useLocation } from 'react-router';
 import style from '../style.module.css'
 import axios from 'axios';
+import swal from 'sweetalert';
 
 const AddUser = ()=>{
 
     const {userId} = useParams();
-    const params = useLocation();
-    console.log(params);
     const navigate = useNavigate()
-    const [data, setData] = setState({
+    const [data, setData] = useState({
         name:'',
         username:'',
         email:'',
@@ -22,10 +21,39 @@ const AddUser = ()=>{
     })
     const handleAddUser = (e) =>{
         e.preventDefault();
-        axios.post('https://jsonplaceholder.typicode.com/users', data).then(res=>{
-            console.log(res);
-        })
+        if(!userId){
+            axios.post('https://jsonplaceholder.typicode.com/users', data).then(res=>{
+                console.log(res);
+                swal(`${res.data.name} با موفقیت ایجاد شد`, {
+                    icon: "success",
+                    buttons: "متوجه شدم",            
+                });
+            })
+        } else{
+            axios.put(`https://jsonplaceholder.typicode.com/users/${userId}`, data).then(res=>{
+                console.log(res);
+                swal(`${res.data.name} با موفقیت ویرایش شد`, {
+                    icon: "success",
+                    buttons: "متوجه شدم",            
+                });
+            })
+        }
     }
+    useEffect(()=>{
+        axios.get(`https://jsonplaceholder.typicode.com/users/${userId}`).then(res=>{
+            setData({
+                name: res.data.name ,
+                username : res.data.username ,
+                email : res.data.email,
+                address : {
+                    street: res.data.address.street ,
+                    city: res.data.address.city ,
+                    suite: res.data.address.suite ,
+                    zipcode: res.data.address.zipcode 
+                }
+            })
+        });
+    },[])
     return (
         <div className={`${style.item_content} mt-5 p-4 container-fluid container`}>
             <h4 className="text-center text-primary">

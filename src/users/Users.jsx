@@ -8,9 +8,11 @@ const Users = ()=>{
 
     const navigate = useNavigate();
     const [users, setUsers] = useState([]);
+    const [mainUsers, setMainUsers] = useState([]);
     useEffect(() => {
         axios.get('https://jsonplaceholder.typicode.com/users').then(res=>{
             setUsers(res.data);
+            setMainUsers(res.data);
         }).catch(err=>{
             console.log(err);
         })
@@ -53,16 +55,18 @@ const Users = ()=>{
             }
           });
     }
-
+    const handleSearch=(e)=>{
+    setUsers(mainUsers.filter(u=>u.name.includes(e.target.value)))
+    }
     return (
         <div className={`${style.item_content} mt-5 p-4 container-fluid`}>
             <h4 className="text-center">مدیریت کاربران</h4>
             <div className="row my-2 mb-4 justify-content-between w-100 mx-0">
                 <div className="form-group col-10 col-md-6 col-lg-4">
-                    <input type="text" className="form-control shadow" placeholder="جستجو"/>
+                    <input type="text" className="form-control shadow" placeholder="جستجو" onChange={handleSearch}/>
                 </div>
                 <div className="col-2 text-start px-0">
-                    <Link to="/user/add" state={'3'}>
+                    <Link to="/user/add">
                         <button className="btn btn-success">
                             <i className="fas fa-plus text-light"></i>
                         </button>
@@ -89,12 +93,7 @@ const Users = ()=>{
                         <td>{u.email}</td>
                         <td>
                             <i className="fas fa-edit text-warning mx-2 pointer"
-                            onClick={()=>navigate("/user/add/2", {
-                                state: {
-                                    x: '1',
-                                    y:'2'
-                                }
-                            })}
+                            onClick={()=>navigate(`/user/add/${u.id}`)}
                             ></i>
                             <i className="fas fa-trash text-danger mx-2 pointer" onClick={()=>handleDelete(u.id)}></i>
                         </td>
