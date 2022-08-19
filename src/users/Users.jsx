@@ -3,6 +3,7 @@ import style from '../style.module.css'
 import { Link, useNavigate } from 'react-router-dom';
 import swal from 'sweetalert';
 import axios from 'axios';
+import { jpAxios } from '../JpAxios';
 
 const Users = ()=>{
 
@@ -10,7 +11,7 @@ const Users = ()=>{
     const [users, setUsers] = useState([]);
     const [mainUsers, setMainUsers] = useState([]);
     useEffect(() => {
-        axios.get('https://jsonplaceholder.typicode.com/users').then(res=>{
+        jpAxios.get('/users').then(res=>{
             setUsers(res.data);
             setMainUsers(res.data);
         }).catch(err=>{

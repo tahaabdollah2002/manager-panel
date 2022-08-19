@@ -1,8 +1,9 @@
-import {React, useState, useEffect} from 'react';
+import {React, useState, useEffect, useId} from 'react';
 import { useParams , Outlet, useNavigate, useLocation } from 'react-router';
 import style from '../style.module.css'
 import axios from 'axios';
-import swal from 'sweetalert';
+import { getUserService, setUserService, updateUserService } from '../services/UserServise';
+import { jpAxios } from '../JpAxios';
 
 const AddUser = ()=>{
 
@@ -22,37 +23,13 @@ const AddUser = ()=>{
     const handleAddUser = (e) =>{
         e.preventDefault();
         if(!userId){
-            axios.post('https://jsonplaceholder.typicode.com/users', data).then(res=>{
-                console.log(res);
-                swal(`${res.data.name} با موفقیت ایجاد شد`, {
-                    icon: "success",
-                    buttons: "متوجه شدم",            
-                });
-            })
+            setUserService(data);
         } else{
-            axios.put(`https://jsonplaceholder.typicode.com/users/${userId}`, data).then(res=>{
-                console.log(res);
-                swal(`${res.data.name} با موفقیت ویرایش شد`, {
-                    icon: "success",
-                    buttons: "متوجه شدم",            
-                });
-            })
+            updateUserService(data, userId);
         }
     }
     useEffect(()=>{
-        axios.get(`https://jsonplaceholder.typicode.com/users/${userId}`).then(res=>{
-            setData({
-                name: res.data.name ,
-                username : res.data.username ,
-                email : res.data.email,
-                address : {
-                    street: res.data.address.street ,
-                    city: res.data.address.city ,
-                    suite: res.data.address.suite ,
-                    zipcode: res.data.address.zipcode 
-                }
-            })
-        });
+        getUserService(setData, userId)
     },[])
     return (
         <div className={`${style.item_content} mt-5 p-4 container-fluid container`}>
