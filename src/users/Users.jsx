@@ -1,12 +1,12 @@
 import {React, useEffect, useState} from 'react';
 import style from '../style.module.css'
 import { Link, useNavigate } from 'react-router-dom';
-import swal from 'sweetalert';
 import axios from 'axios';
 import { jpAxios } from '../JpAxios';
+import WithAlert from '../HOC/withAlert';
 
-const Users = ()=>{
-
+const Users = (props)=>{
+    const{confirm, Alert} = props
     const navigate = useNavigate();
     const [users, setUsers] = useState([]);
     const [mainUsers, setMainUsers] = useState([]);
@@ -18,16 +18,8 @@ const Users = ()=>{
             console.log(err);
         })
     }, []);
-    const handleDelete = (itemId)=>{
-        swal({
-            title: "حذف رکورد !",
-            text: `آیا از حذف رکورد ${itemId} اطمینان دارید؟`,
-            icon: "warning",
-            buttons: ["خیر" , "بله"],
-            dangerMode: true,
-          })
-          .then((willDelete) => {
-            if (willDelete) {
+    const handleDelete = async (itemId)=>{
+            if (await confirm(`آیا از حذف رکورد ${itemId} اطمینان دارید؟`)) {
                 axios({
                     method: 'DELETE',
                     url: `https://jsonplaceholder.typicode.com/users/${itemId}`
@@ -35,26 +27,17 @@ const Users = ()=>{
                     if(res.status === 200){
                         let newUser = users.filter(u=>u.id !==itemId);
                         setUsers(newUser);
-                        swal("حذف با موفقیت انجام شد", {
-                            icon: "success",
-                            buttons: "متوجه شدم",
-                        });
+                        Alert("حذف با موفقیت انجام شد", "success")
                     }else{
-                        swal("عملیات با خطا مواجه شد!", {
-                            icon: "error",
-                            button: "متوجه شدم"
-                        })
+                        Alert("عملیات با خطا مواجه شد", "error")
                     }
                 })
                 // axios.delete(`https://jsonplaceholder.typicode.com/users/${itemId}`)
               
             } else {
-              swal("شما از حذف رکورد منصرف شدید!",{
-                icon: "info",
-                button: "متوجه شدم"
-              });
+              Alert("شما از حذف رکورد منصرف شدید!", "info")
             }
-          });
+        ;
     }
     const handleSearch=(e)=>{
     setUsers(mainUsers.filter(u=>u.name.includes(e.target.value)))
@@ -111,4 +94,4 @@ const Users = ()=>{
 
 }
 
-export default Users;
+export default WithAlert(Users);
