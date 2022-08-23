@@ -4,9 +4,10 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { jpAxios } from '../JpAxios';
 import WithAlert from '../HOC/withAlert';
+import {confirm, Alert} from '../Utils/Alerts';
 
 const Users = (props)=>{
-    const{confirm, Alert} = props
+    // const{confirm, Alert} = props
     const navigate = useNavigate();
     const [users, setUsers] = useState([]);
     const [mainUsers, setMainUsers] = useState([]);
@@ -94,4 +95,5 @@ const Users = (props)=>{
 
 }
 
-export default WithAlert(Users);
+// export default WithAlert(Users);
+export default Users;
