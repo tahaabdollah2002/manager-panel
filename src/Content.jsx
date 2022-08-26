@@ -9,6 +9,7 @@ import style from './style.module.css'
 import Todos from './todos/Todos';
 import Users from './users/Users';
 import WithAlert2 from './HOC/WithAlert2';
+import AddPost from './posts/AddPost2'
 
 const Content = ()=>{
 
@@ -35,6 +36,9 @@ const Content = ()=>{
                     {/* <Route path=":userId" element={<EditDesc/>} /> */}
                 </Route>
                 <Route path='/post' element={<Posts/>}/>
+                <Route path='/post/add' element={<AddPost/>}>
+                    <Route path=':postId'/>
+                </Route>
                 <Route path='/gallery' element={<Gallery/>}/>
                 <Route path='/todo' element={<Todos/>}/>
                 <Route path='*' element={

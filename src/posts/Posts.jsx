@@ -38,7 +38,7 @@ const Posts = ()=>{
                     <input type="number" className="form-control shadow" placeholder="جستجو" value={uId} onChange={(e)=>setUId(e.target.value)}/>
                 </div>
                 <div className="col-2 text-start px-0">
-                    <Link to="/posts/add">
+                    <Link to="/post/add">
                         <button className="btn btn-success">
                             <i className="fas fa-plus text-light"></i>
                         </button>
@@ -65,7 +65,7 @@ const Posts = ()=>{
                         <td>{u.body}</td>
                         <td>
                             <i className="fas fa-edit text-warning mx-2 pointer"
-                            onClick={()=>Navigate(`/posts/add/${u.id}`)}
+                            onClick={()=>Navigate(`/post/add/${u.id}`)}
                             ></i>
                             <i className="fas fa-trash text-danger mx-2 pointer" onClick={()=>handleDelete(u.id)}></i>
                         </td>
